@@ -13,8 +13,9 @@ function displayResults(responseJson) {
   //replace the existing image with the new one
   responseJson.message.forEach(img => {
     $('.results-img').replaceWith(
-      `<img src="${img}" class="results-img">`
-    );
+      ('.results').append(
+        `<img src="${img}" class="results-img">`
+      ));
     //display the results section
     $('.results').removeClass('hidden');
   });
