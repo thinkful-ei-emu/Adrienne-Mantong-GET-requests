@@ -8,11 +8,11 @@ function getDogImage(breed, responseJson) {
       if (response.ok) {
         return response.json();
       }
-      throw new Error(responseJson.status);
+      throw new Error(response.statusText);
     })
     .then(responseJson => displayResults(responseJson))
     .catch(error => {
-      alert($('#js-error-message').text(`Something went wrong: ${error.message}`));
+      alert(`Something went wrong. Breed cannot be found.`);
     });
 }
 
