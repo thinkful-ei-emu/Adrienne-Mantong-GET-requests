@@ -1,37 +1,44 @@
 'use strict';
+/* global $ */
 
-function getDogImage(breed, responseJson) {
-  let requestUrl = 
-  'https://dog.ceo/api/breed/hound-' + breed + '/images/random'
+
+
+function getSingleBreed(breedName) {
+  let requestUrl = `https://dog.ceo/api/breed/${breedName}/images/random/1`;
   fetch(requestUrl)
     .then(response => {
-      if (response.ok) {
-        return response.json();
-      }
-      throw new Error(response.statusText);
+      return response.json();
     })
-    .then(responseJson => displayResults(responseJson))
-    .catch(error => {
-      alert(`Something went wrong. Breed cannot be found.`);
-    });
+    .then(responseJson => {
+      displayResults(responseJson);
+    })
+    .catch(error => alert('breed not on database'));
 }
 
+
 function displayResults(responseJson) {
-  console.log(responseJson);
-  //replace the existing image with the new one
-  $('.results-img').replaceWith(
-    `<img src="${responseJson.message}" class="results-img">`
-  )
+  // console.log(responseJson);
+  //replace the existing image with the new ones
+  let images = '';
+  responseJson.message.forEach((image) => {
+    images += `<img src="${image}" class="results-img">`;
+  }); 
+
+  $('.results-img').html(
+    images
+  );
   //display the results section
   $('.results').removeClass('hidden');
 }
 
 function watchForm() {
-  $('form').submit(event => {
+ 
+  $('#single-breed').submit(event => {
     event.preventDefault();
-    let dogBreed = ($('#breed').val());
-    $('#breed').val('');
-    getDogImage(dogBreed);
+    let breedName = $('#breed-name').val();
+    $('#breed-name').val('');
+    // console.log(dogNum, typeof dogNum);
+    getSingleBreed(breedName);
   });
 }
 
