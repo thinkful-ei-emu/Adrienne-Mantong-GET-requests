@@ -3,8 +3,23 @@
 
 
 
-function getSingleBreed(breedName) {
-  let requestUrl = `https://dog.ceo/api/breed/${breedName}/images/random/1`;
+function getSingleBreed(dogName) {
+  let requestUrl = '';
+  if (dogName.includes(' ')) {
+    let newName = dogName.split(' ');
+    console.log(newName);
+    let subBreed = newName[0];
+    console.log(subBreed);
+    let breedName = newName[1];
+    console.log(breedName);
+    let newUrl = `https://dog.ceo/api/breed/${breedName}/${subBreed}/images/random/1`;
+    console.log(newUrl);
+    requestUrl = newUrl;
+  } else {
+    requestUrl = `https://dog.ceo/api/breed/${dogName}/images/random/1`;
+  }
+
+  console.log(requestUrl);
   fetch(requestUrl)
     .then(response => {
       return response.json();
@@ -12,7 +27,7 @@ function getSingleBreed(breedName) {
     .then(responseJson => {
       displayResults(responseJson);
     })
-    .catch(error => alert('breed not on database'));
+    .catch(error => alert('breed not in database'));
 }
 
 
@@ -37,7 +52,6 @@ function watchForm() {
     event.preventDefault();
     let breedName = $('#breed-name').val();
     $('#breed-name').val('');
-    // console.log(dogNum, typeof dogNum);
     getSingleBreed(breedName);
   });
 }
